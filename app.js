@@ -5,9 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = require('express-session');
+var flash = require('connect-flash');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var authRoutes = require('./routes/auth');
+var productsRoutes = require('./routes/products');
 
 
 var app = express();
@@ -24,9 +28,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret:"@#%#$^$%",
+  cookie:{maxAge:1000*60*60*24*7}
+}));
+app.use(flash());
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/auth', authRoutes);
+app.use('/products', productsRoutes);
+
+//Auth
+app.use(function(req,res,next){
+  if (!(req.session.username && req.session.pass))
+  {
+    res.redirect('/auth/login');
+  }else{
+    resp.locals={
+      name:req.session.username
+    }
+    next();
+  }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

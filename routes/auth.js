@@ -4,11 +4,24 @@ var bodyParser = require ('body-parser');
 var bodyParserMid = bodyParser.urlencoded();
 
 router.get('/login',function(req,resp){
-  resp.render('auth/login');
-
+  resp.render('auth/login',{
+    msg:req.flash("msg")
+  });
 });
 
 router.post('/login',bodyParserMid,function(req,resp){
+  var username = req.body.username;
+  var pass = req.body.password;
+  //static login
+  if(username == "mino" && pass == "12345"){
+    req.session.username = "mino";
+    req.session.password= "12345";
+    resp.redirect('/products/list');
+
+  }else{
+    req.flash("msg","invalid username or password");
+    resp.redirect('/auth/login');
+  }
 
 });
 

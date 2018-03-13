@@ -5,8 +5,11 @@
     <title>Login Page</title>
   </head>
   <body>
+    <% if(msg) {%>
+      <h1><%= msg %></h1>
+    <% } %>
     <form class="" action="/auth/login" method="post">
-      <input type="text" name="name" value="">
+      <input type="text" name="username" value="">
       <input type="password" name="password" value="">
       <input type="submit"  value="Login">
 
