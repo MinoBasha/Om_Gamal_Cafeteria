@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>My Orders</title>
+<style>
+    #compDiv{
+        border: 2px black solid;
+        width:500px;
+    }
+</style>
+<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script> 
+<script type="text/javascript">
+$(function(){	
+
+function createTable(data){
+    total = 0;
+    var OrdersTable = `
+        <table border=1 id="ordersTbl">
+            <tr>
+                <th>orderDate</th>
+                <th>status</th>
+                <th>amount</th>
+                <th>action</th>
+            </tr>
+        `;
+    data.forEach(function(order,index){
+        total += parseInt(order.amount);
+        OrdersTable += `<tr>  
+            <td>`+ order.orderDate+` <button value="`+order.orderDate+`">+</button></td>
+            <td>`+ order.status+`</td>
+            <td>`+ order.amount+` EGP</td>
+            <td>`+ order.action+`</td>
+            </tr>`;
+      })
+    OrdersTable+=`</table>`;
+        
+    return OrdersTable;
+}
+function createDiv(componentArr){
+    var componentDiv = `<div id="compDiv">`;
+    componentArr.forEach(function(component){
+        componentDiv+=`<p>`+component+`</p>`;
+    })  
+    componentDiv+=`</div>`;
+    return componentDiv;
+}
+
+$('#submitBtn').click(function(e){
+    e.preventDefault();
+    var data = {};
+    data.dateFrom = document.getElementById("dateFrom").value;
+    data.dateTo = document.getElementById("dateTo").value;
+    $.ajax({
+        type: 'GET',
+        data: data,
+        contentType: 'application/json',
+        url: 'http://localhost:9090/myOrders/search',						
+        success: function(res) {
+            $("#ordersTbl").remove();
+            var tableData =  createTable(res); 
+            $('#OrdersDiv').append( tableData);
+            $('button').click(function(e){
+                var btnText = e.currentTarget.innerText;
+                var date = {};
+                date.orderDate=e.target.attributes.value.value;
+                if(btnText == "+"){
+                $.ajax({
+                    type: 'GET',
+                    data: date,
+                    contentType: 'application/json',
+                    url: 'http://localhost:9090/myOrders/component',						
+                    success: function(res) {
+                        e.currentTarget.innerText="-";
+                        $("#compDiv").remove();
+                        var orderComponent=createDiv(res[0].component);
+                        $('#ComponentDiv').append(orderComponent);
+                }});
+                }else{
+                e.currentTarget.innerText="+";
+                $("#compDiv").remove();
+                }
+            });
+            $("#Total").text("Total : "+total);
+        }
+    });    
+});				
+});
+   
+</script>
+</head>
+<body>    
+<h1>My orders</h1>
+
+    <%if(msg !=''){%>
+        <h3><%=msg%></h3>
+    <%}%>
+ 
+    <form method="get" >
+        date from<input id="dateFrom" type="date" name="datefrom" > 
+        date to<input  id="dateTo" type="date" name="dateto" > 
+        <input id="submitBtn" type="submit" value="search">
+    </form>
+    <div id="OrdersDiv"></div>
+    <div id="ComponentDiv"></div>
+    <h3 id="Total"></h3> 
+    
+</body>
+</html>
