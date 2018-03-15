@@ -23,7 +23,7 @@ router.post('/add',bodyParserMid,function(req,resp){
     catname : req.body.catname,
    _id :ObjectID ,
   })
-  product.save(function(err,doc){
+  category.save(function(err,doc){
     if(!err){
       resp.redirect("/category/list");
     }else{
@@ -45,7 +45,7 @@ router.post('/add',bodyParserMid,function(req,resp){
 
 router.get('/list',function(req,resp){
   //resp.render('products/list');
-  ProductModel.find({},function(err,result){
+  CategoryModel.find({}).sort({_id:-1}).then function(err,result){
     if(!err){
       resp.render('category/list',{data:result,msg:req.flash('msg')})
       //resp.json(result);
@@ -56,7 +56,7 @@ router.get('/list',function(req,resp){
 });
 
 router.get('/delete/:id',function(req,resp){
-  ProductModel.remove({_id:req.params.id},function(err,result){
+  CategoryModel.remove({_id:req.params.id},function(err,result){
     if(!err){
       req.flash("msg","Done");
       resp.redirect("/category/list");
@@ -65,7 +65,7 @@ router.get('/delete/:id',function(req,resp){
 });
 
 router.get('/edit/:id',function(req,resp){
-  ProductModel.findOne({_id:req.params.id},function(err,doc){
+  CategoryModel.findOne({_id:req.params.id},function(err,doc){
     resp.render('category/edit',{obj:doc});
   });
 });
@@ -74,7 +74,11 @@ router.post('/edit/:id',bodyParserMid,function(req,resp){
   CategoryModel.update({_id:req.params.id},{
     catname : req.body.catname,
   },function(err,doc){
-    resp.redirect('category/list');
+    if(!err){
+      resp.redirect('category/list');
+    }else{
+      resp.json(err);
+    }
   });
 });
 

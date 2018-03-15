@@ -4,15 +4,15 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 
 var products=new Schema({
-  //_id:ObjectId,
-  _id:Number,
+  _id:ObjectId,
+//  _id:Number,
   proname:String,
   price:Number,
-  category:String,
-  // category:{
-  //   type:ObjectId,
-  //   ref:"category"
-  // }
+  //category:String,
+  category:{
+    type:ObjectId,
+    ref:"category"
+  },
   proimg:String
 
 });
