@@ -1,7 +1,11 @@
-ongoose.model("orders",orders);
-
+var mongoose=require('mongoose');
+var Schema=mongoose.Schema;
 var orders=new Schema({
-  id:Number,
+  _id:Number,
+  orderDate:String,
+  action:String,
+  status:String,
+  component:[],
   price:String,
   name:String,
   rooms:String,
@@ -15,9 +19,10 @@ var orders=new Schema({
   user:{
     type:Number,
     ref:"users"
-  }
+  },
   products:[{
       type:Number,
       ref:"products"
   }]
 });
+mongoose.model("orders",orders);
