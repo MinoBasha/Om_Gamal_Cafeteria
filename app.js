@@ -1,4 +1,5 @@
 var express = require('express');
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -15,13 +16,35 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var authRoutes = require('./routes/auth');
 var productsRoutes = require('./routes/products');
+var userRoutes=require('./controllers/user');
+var userRoutes=require('./controllers/user');
+var mongodb = require('mongodb').MongoClient;
+var url = 'mongodb://localhost:27020/MongoDataBase';
+
+
+
+
 
 
 var app = express();
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+//home_user_list
+app.use('/user',userRoutes);
+app.use(express.static('public'));
+
+app.set('view engine','ejs');
+app.set('views','./views');
+
+app.listen('9090',function () {
+    console.log("starting..");
+});
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
