@@ -1,7 +1,7 @@
 <%include ../layout/header.ejs %>
 <h1>Add Products</h1>
 
-<form class="" action="/products/add" method="post" enctype="multipart/form-data">
+<form class="" action="/products/add" method="post" enctype="multipart/form-data" id="ProductForm">
     <label>Product Name</label>
       <label>
         <input type="text" name="proname" value="" required>
@@ -14,16 +14,17 @@
       <br>
     <label>Product Price</label>
       <label>
-        <input type="text" name="price" value="" required>
+        <input type="number" name="price"  value="3" min="0" required>LE
       </label>
       <br>
     <label>Category</label>
       <label>
         <select name="category" required>
-         <option value="Hot Drinks">Hot Drinks</option>
-         <option value="Cold Drinks">Cold Drinks</option>
-        </select>
-        <a href="">Add Category</a>
+	 <%category.forEach(function(category){%>
+  		<option value="<%= category._id %>"><%= category.catname %></option>
+	 	 <%})%>
+ 	 </select>
+  	<a href="/category/add">Add Category </a>
       </label>
       <br>
     <label>Product Image</label>
@@ -32,5 +33,6 @@
       </label>
       <br>
   <input type="submit" value="Add">
+  <input type="reset" value="Clear">
 </form>
 <%include ../layout/footer.ejs %>

@@ -17,6 +17,8 @@ var ProductModel = mongoose.model('products');
 
 
 router.get('/add',function(req,resp){
+    mongoose.model('product').find({},function(err,users){
+        resp.render('product/add',{product:product});
   resp.render('products/add');
 });
 
@@ -80,9 +82,11 @@ router.get('/edit/:id',function(req,resp){
 
 router.post('/edit/:id',bodyParserMid,function(req,resp){
   ProductModel.update({_id:req.params.id},{
+    "$set":{
     proname : req.body.proname,
     price : req.body.price,
     category : req.body.category,
+    
   },function(err,doc){
     resp.redirect('products/list');
   });
