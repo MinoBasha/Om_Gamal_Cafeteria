@@ -1,0 +1,23 @@
+<%include  header.ejs %>
+<h1> List Products</h1>
+<% if(!msg){ %>
+    <h3 class="alert alert-success"><%= msg %></h3>
+<% }%>
+
+<table class="table table-bordered">
+      <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+      </tr>
+      <% info.forEach(function(products){ %>
+          <tr>
+              <td><%= products.name %></td>
+              <td><%= products.price %></td>
+              <td><a class="btn btn-danger" href="/products/delete/<%= products.id %>">Delete</a>
+              <a class="btn btn-primary" href="/products/edit/<%= products.id %>">Edit</a></td>
+          </tr>
+      <% }) %>
+</table>
+
+<%include  footer.ejs %>

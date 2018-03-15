@@ -1,0 +1,28 @@
+<%include  header.ejs %>
+<div class="row">
+    <div class="col-6">
+          <form action="/orders/add" method="post" class="form-control" id="menue">
+              <input type="submit" value="Order" id="order">
+          </form>
+          <% products.forEach(function(products){ %>
+              <button value="<%= products.id %>"><%= products.name %></button>
+          <% }) %>
+    </div>
+
+</div>
+
+    <script src="/javascripts/jquery-3.2.1.js"></script>
+    <script>
+            var products='';
+            $(function(){
+                var menue=$('#menue');
+                $('button').click(function(){
+                    var order = $("<input type='hidden'>").val(this.value);
+                    products+=this.innerText+",";
+                    menue.attr('name', "products");
+                    products.prepend(order);
+                 })
+            });
+    </script>
+
+<%include  footer.ejs %>
