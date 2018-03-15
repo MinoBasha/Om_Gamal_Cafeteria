@@ -36,6 +36,19 @@ router.get('/component',function(req,resp){
     })
 });
 
+router.get('/componentDetails',function(req,resp){
+
+    mongoose.model('products').find({proname:req.query.name},function(err,doc){
+        
+        if(!err){
+            resp.json(doc);
+        }
+        else{
+           resp.render(err);
+        }
+    })
+
+});
 router.get('/search',function(req,resp){
     mongoose.model('orders').find({$and:[{orderDate:{$lte:req.query.dateTo}},{orderDate:{$gte:req.query.dateFrom}}]},function(err,doc){
         if(!err){

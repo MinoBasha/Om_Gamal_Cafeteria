@@ -4,7 +4,7 @@
 <style>
     #compDiv{
         border: 2px black solid;
-        width:500px;
+        width:600px;
     }
 </style>
 <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script> 
@@ -38,7 +38,10 @@ function createTable(data){
 function createDiv(componentArr){
     var componentDiv = `<div id="compDiv">`;
     componentArr.forEach(function(component){
-        componentDiv+=`<p>`+component+`</p>`;
+        componentDiv+=`<img src="/img/`+component.proimg+`" width="100" height="100">`;
+        componentDiv+=``+component.proname+`: `;
+        componentDiv+=`price`+component.price+`. `;
+
     })  
     componentDiv+=`</div>`;
     return componentDiv;
@@ -70,9 +73,20 @@ $('#submitBtn').click(function(e){
                     url: 'http://localhost:9090/myOrders/component',						
                     success: function(res) {
                         e.currentTarget.innerText="-";
-                        $("#compDiv").remove();
-                        var orderComponent=createDiv(res[0].component);
+                         var comp={};
+                        comp.name=res[0].component;
+                        $.ajax({
+                            type: 'GET',
+                            data: comp,
+                            contentType: 'application/json',
+                            url: 'http://localhost:9090/myOrders/componentDetails',						
+                            success: function(res) {
+                                //console.log(res);
+                                $("#compDiv").remove();
+                        var orderComponent=createDiv(res);
                         $('#ComponentDiv').append(orderComponent);
+
+                            }})
                 }});
                 }else{
                 e.currentTarget.innerText="+";
