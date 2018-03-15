@@ -25,5 +25,10 @@ router.post('/login',bodyParserMid,function(req,resp){
 
 });
 
+router.get('/logout',function (req,resp) {
+    req.session.destroy(function () {
+        resp.redirect('login');
+     })
+  });
 
 module.exports = router;

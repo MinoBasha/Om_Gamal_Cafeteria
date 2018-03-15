@@ -1,3 +1,50 @@
 <%include ../layout/header.ejs %>
+<% if(!msg){ %>
+    <h3 class="alert alert-success"><%= msg %></h3>
+    <% }%>
 <h1>Products List</h1>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            Product Name
+        </th>
+        <th>
+            Product ID
+        </th>
+        <th>
+            Product Price
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+          Product Image
+        </th>
+        <th>Action</th>
+    </tr>
+    <% data.forEach(function(product){ %>
+        <tr>
+            <td>
+                <%= product.proname %>
+            </td>
+            <td>
+                <%= product._id %>
+            </td>
+            <td>
+                <%= product.price %>
+            </td>
+            <td>
+                <%= product.category %>
+            </td>
+            <td>
+              <img src="/images/<%= product.proimg %>" alt="" />
+                <%= product.proimg %>
+            </td>
+            <td><a class="btn btn-danger" href="/products/delete/<%= product._id %>">Delete</a>
+            <a class="btn btn-primary" href="/products/edit/<%= product._id %>">Edit</a></td>
+        </tr>
+        <% }) %>
+</table>
+
+
 <%include ../layout/footer.ejs %>

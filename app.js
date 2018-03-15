@@ -39,6 +39,9 @@ app.use(session({
 }));
 app.use(flash());
 
+app.use(express.static('public'));
+
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/auth', authRoutes);

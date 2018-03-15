@@ -1,20 +1,20 @@
 <%include ../layout/header.ejs %>
 <h1>Add Products</h1>
 
-<form class="" action="/products/add" method="post" enctype="multipart/form-data">
+<form class="" action="/products/edit" method="post" enctype="multipart/form-data">
+  <label>Product id</label>
+    <label>
+      <input type="text" disabled="disabled" name="_id" value="<%=obj._id%>" required>
+    </label>
+    <br>
     <label>Product Name</label>
       <label>
-        <input type="text" name="proname" value="" required>
-      </label>
-      <br>
-    <label>Product id</label>
-      <label>
-        <input type="text" name="_id" value="" required>
+        <input type="text" name="proname" value="<%=obj.proname%>" required>
       </label>
       <br>
     <label>Product Price</label>
       <label>
-        <input type="text" name="price" value="" required>
+        <input type="text" name="price" value="<%=obj.price%>" required>
       </label>
       <br>
     <label>Category</label>
@@ -28,7 +28,7 @@
       <br>
     <label>Product Image</label>
       <label>
-        <input type="file" name="proimg" required>
+        <input type="file" name="proimg" value="" required>
       </label>
       <br>
   <input type="submit" value="Add">
