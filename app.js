@@ -11,13 +11,15 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var flash = require('connect-flash');
 
-require('./models/products')
+require('./models/products');
+require('./models/orders');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var authRoutes = require('./routes/auth');
 var productsRoutes = require('./routes/products');
 var userRoutes=require('./controllers/user');
 var userRoutes=require('./controllers/user');
+var myOrdersRoutes=require('./routes/MyOrders');
 var mongodb = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27020/MongoDataBase';
 
@@ -69,7 +71,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/auth', authRoutes);
 app.use('/products', productsRoutes);
-
+app.use('/myOrders',myOrdersRoutes);
 //Auth
 app.use(function(req,res,next){
   if (!(req.session.username && req.session.pass))
